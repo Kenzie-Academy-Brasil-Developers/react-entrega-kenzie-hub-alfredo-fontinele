@@ -24,3 +24,14 @@ export const MainContainer = styled.main`
         color: #fff;
     }
 `
+
+export const MainTop = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+        background-color: var(--grey-3);
+        padding: .7rem;
+    }
+`
