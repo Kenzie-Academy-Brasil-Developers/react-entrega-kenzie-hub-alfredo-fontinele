@@ -16,6 +16,7 @@ export const ControlPage = ({ page, setPage }) => {
     return (
         <ControlPageContainer>
             <MdNavigateBefore onClick={previousPage}/>
+            <h3>{page}</h3>
             <MdNavigateNext onClick={nextPage}/>
         </ControlPageContainer>
     )

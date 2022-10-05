@@ -7,6 +7,7 @@ export const Card = styled.li`
     gap: 40px;
     padding: 1rem 1.2rem;
     border-radius: 4px;
+    cursor: pointer;
     background-color: #121214;
 
     h2 {
@@ -24,5 +25,13 @@ export const Card = styled.li`
         justify-content: space-between;
         align-items: center;
         gap: 30px;
+    }
+
+    @media only screen and  (max-width: 550px) {
+
+        div svg {
+            display: none;
+        }
+
     }
 `

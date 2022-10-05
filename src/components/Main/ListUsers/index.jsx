@@ -2,37 +2,52 @@ import { useEffect, useState } from 'react'
 import { CardUser } from '../CardUser'
 import * as S from './style'
 
-export const ListUsers = ({ users }) => {
+export const ListUsers = ({ users, setStatusModal, setCardCurrent }) => {
 
+    const [existTechnology, setExistTechnology] = useState(true)
     const [usersFormated, setUsersFormated] = useState([])
+
+    const validationTechnology = (arr) => {
+        const validation = arr.every(({ technology }) => technology === undefined)
+        if (validation) {
+            setExistTechnology(false)
+        } else {
+            setExistTechnology(true)
+            setUsersFormated(arr)
+        }
+    }
 
     useEffect(() => {
         (() => {
             const filter = users.map(objeto => {
-                const { id, name, techs: [ obj ] } = objeto
+                const { id, techs: [ obj ] } = objeto
                 return {
                     id: id,
-                    name: name,
+                    technology: obj?.title,
                     status: obj?.status
                 }
             })
-            setUsersFormated(filter)
+            validationTechnology(filter)
         })()
     }, [users])
 
     return (
         <S.MainList>
-            {usersFormated ? (
-                usersFormated.map(({ id, name, status }) => (
+            {existTechnology && (
+                usersFormated.map(({ id, technology, status }) => (
+                (id, technology, status) && (
                     <CardUser 
                         key={id} 
                         id={id} 
-                        name={name} 
+                        technology={technology} 
                         status={status}
+                        setStatusModal={setStatusModal}
+                        setCardCurrent={setCardCurrent}
                     />
                 ))
-            ) : (
-                <h2 style={{ textAlign: 'center', fontSize: 24 }}>Lista Vazia</h2>
+            ))}
+            {!existTechnology && (
+                <h2>Ops! Nenhuma Tecnologia. Tente ir para a próxima ou volte</h2>
             )}
         </S.MainList>
     )
