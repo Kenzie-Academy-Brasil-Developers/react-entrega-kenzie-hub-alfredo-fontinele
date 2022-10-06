@@ -5,6 +5,7 @@ export const ModalContainer = styled.div`
     top: 0;
     left: 0;
     width: 100%;
+    padding: 0 1rem;
     min-height: 100vh;
     display: flex;
     justify-content: center;

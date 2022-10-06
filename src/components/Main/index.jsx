@@ -4,11 +4,13 @@ import { API } from '../../services/api'
 import { useEffect, useState } from 'react'
 import { ListUsers } from './ListUsers'
 import { ControlPage } from './ControlPage'
-import { ModalUser } from './ModalUser'
+import { ModalUpdate } from '../Modal/ModalUpdate'
+import { ModalAdd } from '../Modal/ModalAdd'
 
 export const Main = () => {
     const [cardCurrent, setCardCurrent] = useState(null)
-    const [statusModal, setStatusModal] = useState(false)
+    const [statusModalUpdate, setStatusModalUpdate] = useState(false)
+    const [statusModalAdd, setStatusModalAdd] = useState(false)
     const [users, setUsers] = useState([])
     const [page, setPage] = useState(1)
 
@@ -21,13 +23,14 @@ export const Main = () => {
 
     return (
         <>
-            {statusModal && <ModalUser cardCurrent={cardCurrent} setStatusModal={setStatusModal}/>}
+            {statusModalUpdate && <ModalUpdate cardCurrent={cardCurrent} setStatusModalUpdate={setStatusModalUpdate}/>}
+            {statusModalAdd && <ModalAdd setStatusModalAdd={setStatusModalAdd}/>}
             <S.MainContainer>
                 <S.MainTop>
                     <h2>Tecnologias</h2>
-                    <img src={logoAdd} alt="Logo | Adicionar" />
+                    <img onClick={() => setStatusModalAdd(true)} src={logoAdd} alt="Logo | Adicionar" />
                 </S.MainTop>
-                <ListUsers users={users} setStatusModal={setStatusModal} setCardCurrent={setCardCurrent}/>
+                <ListUsers users={users} setStatusModalUpdate={setStatusModalUpdate} setCardCurrent={setCardCurrent}/>
                 <ControlPage page={page} setPage={setPage}/>
             </S.MainContainer>
         </>

@@ -1,15 +1,14 @@
 import { useRef } from 'react'
 import { toast } from 'react-toastify'
 import { API } from '../../../services/api'
-import { ModalStructure } from '../../Modal'
+import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-export const ModalUser = ({ cardCurrent, setStatusModal }) => {
+export const ModalAdd = ({ setStatusModalAdd }) => {
 
+    const token = localStorage.getItem("@hub:token")
     const nameValue = useRef()
     const selectValue = useRef()
-
-    const { id, techs: [ obj ] } = cardCurrent
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -17,22 +16,32 @@ export const ModalUser = ({ cardCurrent, setStatusModal }) => {
             title: nameValue.current?.value,
             status: selectValue.current?.value
         }
-        const { data } = await API.post("users/techs", body)
-        if (data.message) {
+        return await API.post("users/techs", body, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(() => {
+            toast.success("Tecnologia Cadastrada com Sucesso")
+            setTimeout(() => {
+                location.reload()
+            }, 2000)
+        })
+        .catch(() => {
             toast.error("Ops! algo deu errado")
-        }
+        })
     }
 
     return (
         <ModalStructure>
-            <S.ModalUser onSubmit={handleSubmit}>
+            <S.ModalAdd onSubmit={handleSubmit}>
                 <S.ModalTop>
-                    <h3>Tecnologias Detalhadas</h3>
-                    <button type="button" onClick={() => setStatusModal(false)}>X</button>
+                    <h3>Cadastrar Tecnologia</h3>
+                    <button type="button" onClick={() => setStatusModalAdd(false)}>X</button>
                 </S.ModalTop>
                 <S.ModalDescription>
-                    <label>Nome do Projeto</label>
-                    <input ref={nameValue} type="text" placeholder={obj?.title}/>
+                    <label>Nome</label>
+                    <input ref={nameValue} type="text" placeholder="TypeScript"/>
                     <label>Status</label>
                     <select ref={selectValue}>
                         <option value="Iniciante">Iniciante</option>
@@ -40,11 +49,10 @@ export const ModalUser = ({ cardCurrent, setStatusModal }) => {
                         <option value="Avançado">Avançado</option>
                     </select>
                     <S.Buttons>
-                        <button id="btn__submit" type="submit">Salvar Alterações</button>
-                        <button id="btn__unsave">Excluir</button>
+                        <button id="btn__submit" type="submit">Cadastrar Tecnologia</button>
                     </S.Buttons>
                 </S.ModalDescription>
-            </S.ModalUser>
+            </S.ModalAdd>
         </ModalStructure>
     )
 }

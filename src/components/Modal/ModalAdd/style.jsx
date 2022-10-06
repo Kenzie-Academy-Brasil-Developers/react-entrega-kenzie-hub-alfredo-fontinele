@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { OpenModal } from "../../Animation/style";
 
-export const ModalUser = styled.form`
+export const ModalAdd = styled.form`
     animation: ${OpenModal} 0.7s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -71,18 +71,10 @@ export const Buttons = styled.div`
     gap: 20px;
 
     #btn__submit {
-        width: 75%;
+        width: 100%;
         height: 45px;
         color: #fff;
         border-radius: 4px;
-        background-color: var(--primary-negative);
-    }
-
-    #btn__unsave {
-        width: 25%;
-        height: 45px;
-        color: #fff;
-        border-radius: 4px;
-        background-color: var(--grey-1);
+        background-color: var(--primary);
     }
 `

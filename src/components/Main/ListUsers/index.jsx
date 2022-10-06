@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { CardUser } from '../CardUser'
 import * as S from './style'
 
-export const ListUsers = ({ users, setStatusModal, setCardCurrent }) => {
+export const ListUsers = ({ users, setStatusModalUpdate, setCardCurrent }) => {
 
     const [existTechnology, setExistTechnology] = useState(true)
     const [usersFormated, setUsersFormated] = useState([])
@@ -41,7 +41,7 @@ export const ListUsers = ({ users, setStatusModal, setCardCurrent }) => {
                         id={id} 
                         technology={technology} 
                         status={status}
-                        setStatusModal={setStatusModal}
+                        setStatusModalUpdate={setStatusModalUpdate}
                         setCardCurrent={setCardCurrent}
                     />
                 ))

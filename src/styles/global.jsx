@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
+
     :root {
         --primary: #FF577F;
         --primary-hover: #FF427F;
@@ -13,6 +14,7 @@ export const GlobalStyle = createGlobalStyle`
         --success: #3FE864;
         --fail: #E83F5B;
     }
+
     * {
         box-sizing: border-box;
         margin: 0;
@@ -22,18 +24,22 @@ export const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         font-family: 'Inter', sans-serif;
     }
+
     body {
         min-height: 100vh;
         background-color: var(--grey-4);
     }
+
     body::-webkit-scrollbar {
         background-color: var(--grey-4);
     }
+
     body::-webkit-scrollbar-thumb {
         width: 15px;
         background-color: var(--primary);
     }
-    button,svg {
+
+    button, svg {
         cursor: pointer;
     }
 `

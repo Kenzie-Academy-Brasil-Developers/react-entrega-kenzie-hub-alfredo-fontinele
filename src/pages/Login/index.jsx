@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
 import { Error } from '../../components/Error'
-import { ToastContainerStatus } from '../../components/Toast/ToastContainer'
 import { toast } from 'react-toastify'
 import { API } from '../../services/api'
 
@@ -53,35 +52,32 @@ export const Login = () => {
     }
 
     return (
-        <>
-            <ToastContainerStatus/>
-            <FormStructure title="Kenzie Hub">
-                <S.FormLogin onSubmit={handleSubmit(onSubmitFormLogin)}>
-                    <h3>Login</h3>
+        <FormStructure title="Kenzie Hub">
+            <S.FormLogin onSubmit={handleSubmit(onSubmitFormLogin)}>
+                <h3>Login</h3>
 
-                    <label>Email</label>
-                    <input type="text" placeholder="Digite seu email" {...register("email")}/>
-                    {errors.email && <Error text={errors.email.message} />}
+                <label>Email</label>
+                <input type="text" placeholder="Digite seu email" {...register("email")}/>
+                {errors.email && <Error text={errors.email.message} />}
 
-                    <label>Senha</label>
-                    <S.FormPassword>
-                        <input type={typeInput} placeholder="Digite sua senha" {...register("password")}/>
-                        {passwordIconStatus ? (
-                            <AiOutlineEye onClick={toogleIconPassword}/>
-                        ) : (
-                            <AiOutlineEyeInvisible onClick={toogleIconPassword}/>
-                        )}
-                    </S.FormPassword>
-                    {errors.password && <Error text={errors.password.message} />}
+                <label>Senha</label>
+                <S.FormPassword>
+                    <input type={typeInput} placeholder="Digite sua senha" {...register("password")}/>
+                    {passwordIconStatus ? (
+                        <AiOutlineEye onClick={toogleIconPassword}/>
+                    ) : (
+                        <AiOutlineEyeInvisible onClick={toogleIconPassword}/>
+                    )}
+                </S.FormPassword>
+                {errors.password && <Error text={errors.password.message} />}
 
-                    <button type="submit">Entrar</button>
-                    <S.FormRegisterLink>
-                        <span>Ainda não possui uma conta?</span>
-                        <Link to="/register">Cadastre-se</Link>
-                    </S.FormRegisterLink>
+                <button type="submit">Entrar</button>
+                <S.FormRegisterLink>
+                    <span>Ainda não possui uma conta?</span>
+                    <Link to="/register">Cadastre-se</Link>
+                </S.FormRegisterLink>
 
-                </S.FormLogin>
-            </FormStructure>
-        </>
+            </S.FormLogin>
+        </FormStructure>
     )
 }
