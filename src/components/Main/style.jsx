@@ -33,5 +33,6 @@ export const MainTop = styled.div`
     img {
         background-color: var(--grey-3);
         padding: .7rem;
+        cursor: pointer;
     }
 `

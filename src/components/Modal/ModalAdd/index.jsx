@@ -28,7 +28,7 @@ export const ModalAdd = ({ page, statusModalAdd, setStatusModalAdd, setUsers }) 
             ControlApi.getUsers(page, setUsers)
         })
         .catch(() => {
-            toast.error("Ops! algo deu errado")
+            toast.error("Ops! Verifique se preencheu os campos corretamente")
         })
     }
 

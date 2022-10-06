@@ -25,7 +25,7 @@ export const ModalUpdate = ({ page, cardCurrent, setStatusModalUpdate, setUsers 
             ControlApi.getUsers(page, setUsers)
         })
         .catch(() => {
-            toast.error("Ops! Algo deu errado")
+            toast.error("Ops! Verifique se preencheu os campos corretamente")
         })
     }
 
@@ -45,7 +45,7 @@ export const ModalUpdate = ({ page, cardCurrent, setStatusModalUpdate, setUsers 
             ControlApi.getUsers(page, setUsers)
         })
         .catch(() => {
-            toast.error("Ops! algo deu errado")
+            toast.error("Ops! Verifique se preencheu os campos corretamente")
         })
     }
 
