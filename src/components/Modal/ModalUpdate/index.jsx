@@ -58,7 +58,7 @@ export const ModalUpdate = ({ page, cardCurrent, setStatusModalUpdate, setUsers 
                 </S.ModalTop>
                 <S.ModalDescription>
                     <label>Nome do Projeto</label>
-                    <input disabled ref={nameValue} type="text" placeholder={obj?.title}/>
+                    <input disabled ref={nameValue} type="text" placeholder={`${obj?.title} | Este campo não é editável`}/>
                     <label>Status</label>
                     <select ref={selectValue}>
                         <option value="Iniciante">Iniciante</option>

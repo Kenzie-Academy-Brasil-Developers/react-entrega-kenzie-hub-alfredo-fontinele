@@ -41,7 +41,7 @@ export const ModalAdd = ({ page, statusModalAdd, setStatusModalAdd, setUsers }) 
                 </S.ModalTop>
                 <S.ModalDescription>
                     <label>Nome</label>
-                    <input ref={nameValue} type="text" placeholder="TypeScript"/>
+                    <input ref={nameValue} type="text" placeholder="Insira uma Tecnologia"/>
                     <label>Status</label>
                     <select ref={selectValue}>
                         <option value="Iniciante">Iniciante</option>
