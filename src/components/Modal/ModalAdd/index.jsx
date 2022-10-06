@@ -1,10 +1,11 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { toast } from 'react-toastify'
 import { API } from '../../../services/api'
+import { ControlApi } from '../../../services/control'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-export const ModalAdd = ({ setStatusModalAdd }) => {
+export const ModalAdd = ({ page, statusModalAdd, setStatusModalAdd, setUsers }) => {
 
     const token = localStorage.getItem("@hub:token")
     const nameValue = useRef()
@@ -23,9 +24,8 @@ export const ModalAdd = ({ setStatusModalAdd }) => {
         })
         .then(() => {
             toast.success("Tecnologia Cadastrada com Sucesso")
-            setTimeout(() => {
-                location.reload()
-            }, 2000)
+            setStatusModalAdd(false)
+            ControlApi.getUsers(page, setUsers)
         })
         .catch(() => {
             toast.error("Ops! algo deu errado")

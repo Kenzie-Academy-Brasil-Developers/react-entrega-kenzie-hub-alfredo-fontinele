@@ -16,6 +16,7 @@ export const Main = () => {
 
     useEffect(() => {
         (async () => {
+            console.log(page)
             const { data } = await API.get(`users?perPage=15&page=${page}`)
             setUsers(data)
         })()
@@ -23,8 +24,23 @@ export const Main = () => {
 
     return (
         <>
-            {statusModalUpdate && <ModalUpdate cardCurrent={cardCurrent} setStatusModalUpdate={setStatusModalUpdate}/>}
-            {statusModalAdd && <ModalAdd setStatusModalAdd={setStatusModalAdd}/>}
+            {statusModalUpdate && 
+                <ModalUpdate 
+                    page={page} 
+                    setUsers={setUsers} 
+                    cardCurrent={cardCurrent} 
+                    statusModalUpdate={statusModalUpdate} 
+                    setStatusModalUpdate={setStatusModalUpdate}
+                />
+            }
+            {statusModalAdd && 
+                <ModalAdd 
+                    page={page} 
+                    statusModalAdd={statusModalAdd} 
+                    setStatusModalAdd={setStatusModalAdd} 
+                    setUsers={setUsers}
+                />
+            }
             <S.MainContainer>
                 <S.MainTop>
                     <h2>Tecnologias</h2>

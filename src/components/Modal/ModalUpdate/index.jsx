@@ -1,10 +1,11 @@
 import { useRef } from 'react'
 import { toast } from 'react-toastify'
 import { API } from '../../../services/api'
+import { ControlApi } from '../../../services/control'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate }) => {
+export const ModalUpdate = ({ page, cardCurrent, setStatusModalUpdate, setUsers }) => {
 
     const token = localStorage.getItem("@hub:token")
     const nameValue = useRef()
@@ -20,9 +21,8 @@ export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate }) => {
         })
         .then(() => {
             toast.success("Tecnologia Deletada com Sucesso")
-            setTimeout(() => {
-                location.reload()
-            }, 2000)
+            setStatusModalUpdate(false)
+            ControlApi.getUsers(page, setUsers)
         })
         .catch(() => {
             toast.error("Ops! Algo deu errado")
@@ -41,9 +41,8 @@ export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate }) => {
         })
         .then(() => {
             toast.success("Tecnologia Atualizada com Sucesso")
-            setTimeout(() => {
-                location.reload()
-            }, 2000)
+            setStatusModalUpdate(false)
+            ControlApi.getUsers(page, setUsers)
         })
         .catch(() => {
             toast.error("Ops! algo deu errado")
