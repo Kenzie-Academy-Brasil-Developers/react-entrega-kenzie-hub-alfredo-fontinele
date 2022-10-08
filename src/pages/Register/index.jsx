@@ -1,19 +1,18 @@
 import * as S from './style'
 import * as yup from 'yup'
 import { useNavigate, Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
 import { ToastContainerStatus } from '../../components/Toast/ToastContainer'
-import { toast } from 'react-toastify'
 import { Error } from '../../components/Error'
 import { API } from '../../services/api'
-import 'react-toastify/dist/ReactToastify.css'
+import { ValidationContext } from '../../context/validation'
 
 export const Register = () => {
 
-    const navigate = useNavigate()
+    const { navigate, onSubmitFormRegister } = useContext(ValidationContext)
 
     const FormSchema = yup.object({
         name: yup.string().required("Nome Obrigatório"),
@@ -30,27 +29,6 @@ export const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(FormSchema)
     })
-
-    const onSubmitFormRegister = async (data) => {
-        const {email, password, name, bio, contact, course_module} = data
-        const info = {
-            "email": email,
-            "password": password,
-            "name": name,
-            "bio": bio,
-            "contact": contact,
-            "course_module": course_module
-        }
-
-        return await API.post('users', info)
-            .then(res => {
-                toast.success("Conta Criada com Sucesso")
-                setTimeout(() => {
-                    navigate("/")
-                }, 2000)
-            })
-            .catch(err => toast.error("Ops! Algo deu errado"))
-    }
 
     return (
         <>
@@ -76,7 +54,7 @@ export const Register = () => {
                     
                     <label>Confirmar Senha</label>
                     <input type="text" placeholder="Digite novamente sua senha" {...register("confirm_password")}/>
-                    {errors.email && <Error text={errors.email.message} />}
+                    {errors.confirm_password && <Error text={errors.confirm_password.message} />}
 
                     <label>Bio</label>
                     <input type="text" placeholder="Fale sobre você" {...register("bio")}/>

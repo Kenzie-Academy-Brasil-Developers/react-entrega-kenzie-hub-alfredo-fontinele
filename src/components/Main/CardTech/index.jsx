@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react'
-import { FaTrash } from 'react-icons/fa'
+import { useState } from 'react'
 import { API } from '../../../services/api'
 import { Card } from './style'
 
-export const CardUser = ({ id, technology, status, setStatusModalUpdate, setCardCurrent }) => {
+export const CardTech = ({ id, technology, techs, status, setStatusModalUpdate, setCardCurrent }) => {
 
     const [currentUser, setCurrentUser] = useState(null)
+    const token = localStorage.getItem("@hub:token")
 
     const renderModal = async () => {
-        const { data } = await API.get(`users/${id}`)
-        setCardCurrent(data)
+        techs.forEach(tech => {
+            if (tech.id === id) {
+                setCardCurrent(tech)
+            }
+        })
         setStatusModalUpdate(true)
     }
 

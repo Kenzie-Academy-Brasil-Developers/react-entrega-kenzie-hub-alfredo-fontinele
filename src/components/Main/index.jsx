@@ -2,8 +2,7 @@ import * as S from './style'
 import logoAdd from '../../assets/AddImage.png'
 import { API } from '../../services/api'
 import { useEffect, useState } from 'react'
-import { ListUsers } from './ListUsers'
-import { ControlPage } from './ControlPage'
+import { ListTech } from './ListTech'
 import { ModalUpdate } from '../Modal/ModalUpdate'
 import { ModalAdd } from '../Modal/ModalAdd'
 
@@ -11,23 +10,28 @@ export const Main = () => {
     const [cardCurrent, setCardCurrent] = useState(null)
     const [statusModalUpdate, setStatusModalUpdate] = useState(false)
     const [statusModalAdd, setStatusModalAdd] = useState(false)
-    const [users, setUsers] = useState([])
+    const [techs, setTechs] = useState([])
     const [page, setPage] = useState(1)
+
+    const token = localStorage.getItem("@hub:token")
 
     useEffect(() => {
         (async () => {
-            console.log(page)
-            const { data } = await API.get(`users?perPage=15&page=${page}`)
-            setUsers(data)
+            const { data } = await API.get(`profile`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            const { techs: technologies } = data
+            setTechs(technologies)
         })()
-    }, [page])
+    }, [techs])
 
     return (
         <>
             {statusModalUpdate && 
                 <ModalUpdate 
-                    page={page} 
-                    setUsers={setUsers} 
+                    setTechs={setTechs} 
                     cardCurrent={cardCurrent} 
                     statusModalUpdate={statusModalUpdate} 
                     setStatusModalUpdate={setStatusModalUpdate}
@@ -35,10 +39,9 @@ export const Main = () => {
             }
             {statusModalAdd && 
                 <ModalAdd 
-                    page={page} 
                     statusModalAdd={statusModalAdd} 
                     setStatusModalAdd={setStatusModalAdd} 
-                    setUsers={setUsers}
+                    setTechs={setTechs}
                 />
             }
             <S.MainContainer>
@@ -46,8 +49,7 @@ export const Main = () => {
                     <h2>Tecnologias</h2>
                     <img onClick={() => setStatusModalAdd(true)} src={logoAdd} alt="Logo | Adicionar" />
                 </S.MainTop>
-                <ListUsers users={users} setStatusModalUpdate={setStatusModalUpdate} setCardCurrent={setCardCurrent}/>
-                <ControlPage page={page} setPage={setPage}/>
+                <ListTech techs={techs} setStatusModalUpdate={setStatusModalUpdate} setCardCurrent={setCardCurrent}/>
             </S.MainContainer>
         </>
     )

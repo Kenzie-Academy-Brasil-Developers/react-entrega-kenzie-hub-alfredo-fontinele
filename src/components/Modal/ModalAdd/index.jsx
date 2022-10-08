@@ -1,11 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { toast } from 'react-toastify'
 import { API } from '../../../services/api'
-import { ControlApi } from '../../../services/control'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-export const ModalAdd = ({ page, statusModalAdd, setStatusModalAdd, setUsers }) => {
+export const ModalAdd = ({ statusModalAdd, setStatusModalAdd, setTechs }) => {
 
     const token = localStorage.getItem("@hub:token")
     const nameValue = useRef()
@@ -25,7 +24,6 @@ export const ModalAdd = ({ page, statusModalAdd, setStatusModalAdd, setUsers }) 
         .then(() => {
             toast.success("Tecnologia Cadastrada com Sucesso")
             setStatusModalAdd(false)
-            ControlApi.getUsers(page, setUsers)
         })
         .catch(() => {
             toast.error("Ops! Verifique se preencheu os campos corretamente")

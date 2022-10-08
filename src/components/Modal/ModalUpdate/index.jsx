@@ -1,20 +1,20 @@
 import { useRef } from 'react'
 import { toast } from 'react-toastify'
 import { API } from '../../../services/api'
-import { ControlApi } from '../../../services/control'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-export const ModalUpdate = ({ page, cardCurrent, setStatusModalUpdate, setUsers }) => {
+export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }) => {
 
     const token = localStorage.getItem("@hub:token")
     const nameValue = useRef()
     const selectValue = useRef()
 
-    const { id, techs: [ obj ] } = cardCurrent
+    const { id, title } = cardCurrent
+    console.log(cardCurrent)
 
     const deleteTechnology = async () => {
-        return await API.delete(`users/techs/${obj.id}`, {
+        return await API.delete(`users/techs/${id}`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
@@ -22,7 +22,6 @@ export const ModalUpdate = ({ page, cardCurrent, setStatusModalUpdate, setUsers 
         .then(() => {
             toast.success("Tecnologia Deletada com Sucesso")
             setStatusModalUpdate(false)
-            ControlApi.getUsers(page, setUsers)
         })
         .catch(() => {
             toast.error("Ops! Verifique se preencheu os campos corretamente")
@@ -34,7 +33,7 @@ export const ModalUpdate = ({ page, cardCurrent, setStatusModalUpdate, setUsers 
         const body = {
             status: selectValue.current?.value
         }
-        return await API.put(`users/techs/${obj.id}`, body, {
+        return await API.put(`users/techs/${id}`, body, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
@@ -42,7 +41,6 @@ export const ModalUpdate = ({ page, cardCurrent, setStatusModalUpdate, setUsers 
         .then(() => {
             toast.success("Tecnologia Atualizada com Sucesso")
             setStatusModalUpdate(false)
-            ControlApi.getUsers(page, setUsers)
         })
         .catch(() => {
             toast.error("Ops! Verifique se preencheu os campos corretamente")
@@ -58,7 +56,7 @@ export const ModalUpdate = ({ page, cardCurrent, setStatusModalUpdate, setUsers 
                 </S.ModalTop>
                 <S.ModalDescription>
                     <label>Nome do Projeto</label>
-                    <input disabled ref={nameValue} type="text" placeholder={`${obj?.title} | Este campo não é editável`}/>
+                    <input disabled ref={nameValue} type="text" placeholder={`${title} | Este campo não é editável`}/>
                     <label>Status</label>
                     <select ref={selectValue}>
                         <option value="Iniciante">Iniciante</option>
