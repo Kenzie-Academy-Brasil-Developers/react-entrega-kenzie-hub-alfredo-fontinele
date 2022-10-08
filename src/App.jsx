@@ -4,10 +4,13 @@ import { RoutesGlobal } from "./routes"
 
 const App = () => {
   return (
-    <ValidationProvider>
-      <ToastContainerStatus/>
-      <RoutesGlobal/>
-    </ValidationProvider>
+    <>
+      <GlobalStyle/>
+      <ValidationProvider>
+        <ToastContainerStatus/>
+        <RoutesGlobal/>
+      </ValidationProvider>
+    </>
   )
 }
 
