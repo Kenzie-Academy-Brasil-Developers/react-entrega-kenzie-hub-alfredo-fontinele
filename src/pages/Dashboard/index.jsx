@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Container } from "../../components/Container/style"
 import { Header } from "../../components/Header"
@@ -15,7 +15,7 @@ export const Dashboard = () => {
         if (!logged) {
             navigate("/")
         }
-    }, [logged])
+    }, [])
 
     return (
         <>

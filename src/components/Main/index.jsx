@@ -13,17 +13,18 @@ export const Main = () => {
     const [techs, setTechs] = useState([])
     const [page, setPage] = useState(1)
 
-    const token = localStorage.getItem("@hub:token")
-
     useEffect(() => {
         (async () => {
-            const { data } = await API.get(`profile`, {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-            const { techs: technologies } = data
-            setTechs(technologies)
+            const token = localStorage.getItem("@hub:token")
+            if (token) {
+                const { data } = await API.get(`profile`, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                })
+                const { techs: technologies } = data
+                setTechs(technologies)
+            }
         })()
     }, [techs])
 
