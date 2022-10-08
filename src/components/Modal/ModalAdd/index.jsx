@@ -26,7 +26,7 @@ export const ModalAdd = ({ statusModalAdd, setStatusModalAdd, setTechs }) => {
             setStatusModalAdd(false)
         })
         .catch(() => {
-            toast.error("Ops! Verifique se preencheu os campos corretamente")
+            toast.error("Ops! Verifique se preencheu os campos corretamente ou se há tecnologias com mesmo nome")
         })
     }
 
