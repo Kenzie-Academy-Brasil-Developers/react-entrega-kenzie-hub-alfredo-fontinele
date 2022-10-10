@@ -1,17 +1,16 @@
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useContext } from "react"
 import { Container } from "../../components/Container/style"
 import { Header } from "../../components/Header"
 import { Line } from "../../components/LineDivision/style"
 import { Main } from "../../components/Main"
 import { User } from "../../components/User"
+import { ValidationContext } from "../../context/validation"
 
 export const Dashboard = () => {
-
-    const logged = localStorage.getItem("@hub:token")
-    const navigate = useNavigate()
+    const { navigate } = useContext(ValidationContext)
 
     useEffect(() => {
+        const logged = localStorage.getItem("@hub:token")
         if (!logged) {
             navigate("/")
         }

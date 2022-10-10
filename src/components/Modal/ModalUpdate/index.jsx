@@ -5,13 +5,11 @@ import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
 export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }) => {
-
     const token = localStorage.getItem("@hub:token")
     const nameValue = useRef()
     const selectValue = useRef()
 
     const { id, title } = cardCurrent
-    console.log(cardCurrent)
 
     const deleteTechnology = async () => {
         return await API.delete(`users/techs/${id}`, {

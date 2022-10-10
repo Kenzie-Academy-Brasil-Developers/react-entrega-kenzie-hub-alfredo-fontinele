@@ -2,18 +2,17 @@ import * as S from './style'
 import * as yup from 'yup'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-import { useContext } from 'react'
+import { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
 import { Error } from '../../components/Error'
-import { toast } from 'react-toastify'
-import { API } from '../../services/api'
 import { ValidationContext } from '../../context/validation'
 
 export const Login = () => {
-
-    const { navigate, typeInput, passwordIconStatus, onSubmitFormLogin, toogleIconPassword } = useContext(ValidationContext)
+    const [typeInput, setTypeInput] = useState("password")
+    const [passwordIconStatus, setPasswordIconStatus] = useState(false)
+    const { navigate, onSubmitFormLogin } = useContext(ValidationContext)
 
     const FormSchema = yup.object({
         email: yup.string().required("Email obrigatório").email(),
@@ -23,6 +22,11 @@ export const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(FormSchema)
     })
+
+    const toogleIconPassword = (type) => {
+        setPasswordIconStatus((value) => !value)
+        typeInput === "password" ? setTypeInput("text") : setTypeInput("password")
+    }
 
     return (
         <FormStructure title="Kenzie Hub">
@@ -49,7 +53,6 @@ export const Login = () => {
                     <span>Ainda não possui uma conta?</span>
                     <Link to="/register">Cadastre-se</Link>
                 </S.FormRegisterLink>
-
             </S.FormLogin>
         </FormStructure>
     )

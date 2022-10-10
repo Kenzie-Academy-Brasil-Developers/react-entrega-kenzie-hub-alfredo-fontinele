@@ -11,7 +11,6 @@ import { API } from '../../services/api'
 import { ValidationContext } from '../../context/validation'
 
 export const Register = () => {
-
     const { navigate, onSubmitFormRegister } = useContext(ValidationContext)
 
     const FormSchema = yup.object({

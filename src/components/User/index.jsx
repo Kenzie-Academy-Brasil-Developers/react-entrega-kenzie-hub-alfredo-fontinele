@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { API } from '../../services/api'
 import * as S from './style'
 
 export const User = () => {
@@ -6,10 +7,17 @@ export const User = () => {
     const [course_module, setCourseModule] = useState(null)
 
     useEffect(() => {
-        const name = localStorage.getItem("@hub:name")
-        const course_module = localStorage.getItem("@hub:course_module")
-        setName(name)
-        setCourseModule(course_module)
+        (async() => {
+            const token = localStorage.getItem("@hub:token")
+            if (token) {
+                const { data } = await API.get("profile", {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                const { name, course_module } = data
+                setName(name)
+                setCourseModule(course_module)
+            }
+        })()
     }, [])
 
     return (
