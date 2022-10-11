@@ -8,7 +8,7 @@ import { FormStructure } from '../../components/Form'
 import { ToastContainerStatus } from '../../components/Toast/ToastContainer'
 import { Error } from '../../components/Error'
 import { API } from '../../services/api'
-import { ValidationContext } from '../../context/validation'
+import { ValidationContext } from '../../hooks/validation'
 
 export const Register = () => {
     const { navigate, onSubmitFormRegister } = useContext(ValidationContext)

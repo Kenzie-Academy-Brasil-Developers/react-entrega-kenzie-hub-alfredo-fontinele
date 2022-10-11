@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
 import { Error } from '../../components/Error'
-import { ValidationContext } from '../../context/validation'
+import { ValidationContext } from '../../hooks/validation'
 
 export const Login = () => {
     const [typeInput, setTypeInput] = useState("password")

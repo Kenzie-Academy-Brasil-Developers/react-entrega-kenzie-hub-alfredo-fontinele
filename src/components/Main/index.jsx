@@ -11,7 +11,6 @@ export const Main = () => {
     const [statusModalUpdate, setStatusModalUpdate] = useState(false)
     const [statusModalAdd, setStatusModalAdd] = useState(false)
     const [techs, setTechs] = useState([])
-    const [page, setPage] = useState(1)
 
     useEffect(() => {
         (async () => {

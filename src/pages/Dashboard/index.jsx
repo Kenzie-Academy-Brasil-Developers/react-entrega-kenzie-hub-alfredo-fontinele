@@ -4,7 +4,7 @@ import { Header } from "../../components/Header"
 import { Line } from "../../components/LineDivision/style"
 import { Main } from "../../components/Main"
 import { User } from "../../components/User"
-import { ValidationContext } from "../../context/validation"
+import { ValidationContext } from "../../hooks/validation"
 
 export const Dashboard = () => {
     const { navigate } = useContext(ValidationContext)
