@@ -1,33 +1,33 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { toast } from 'react-toastify'
+import { useValidation } from '../../../hooks/validation'
 import { API } from '../../../services/api'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-export const ModalAdd = ({ statusModalAdd, setStatusModalAdd, setTechs }) => {
-
+export const ModalAdd = ({ setTechs, statusModalAdd, setStatusModalAdd }) => {
+    const { getUserData } = useValidation()
     const token = localStorage.getItem("@hub:token")
     const nameValue = useRef()
     const selectValue = useRef()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const body = {
-            title: nameValue.current?.value,
-            status: selectValue.current?.value
-        }
-        return await API.post("users/techs", body, {
-            headers: {
-                "Authorization": `Bearer ${token}`
+        try {
+            const body = {
+                title: nameValue.current?.value,
+                status: selectValue.current?.value
             }
-        })
-        .then(() => {
-            toast.success("Tecnologia Cadastrada com Sucesso")
+            await API.post("users/techs", body, {
+                headers: { "Authorization": `Bearer ${token}` }
+            })
+            const result = await getUserData(token)
+            setTechs(result)
             setStatusModalAdd(false)
-        })
-        .catch(() => {
+            toast.success("Tecnologia Cadastrada com Sucesso")
+        } catch {
             toast.error("Ops! Verifique se preencheu os campos corretamente ou se há tecnologias com mesmo nome")
-        })
+        }
     }
 
     return (

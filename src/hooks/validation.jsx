@@ -2,11 +2,22 @@ import { createContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { API } from "../services/api"
 import { toast } from 'react-toastify'
+import { useContext } from "react"
 
 export const ValidationContext = createContext({})
 
 export const ValidationProvider = ({ children }) => {
     const navigate = useNavigate()
+
+    const getUserData = async(token) => {
+        const { data } = await API.get(`profile`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        const { techs: technologies } = data
+        return technologies
+    }
 
     const onSubmitFormLogin = async (data) => {
         try {
@@ -43,8 +54,10 @@ export const ValidationProvider = ({ children }) => {
 
     return (
         <ValidationContext.Provider
-            value={{ navigate, onSubmitFormLogin, onSubmitFormRegister }}>
+            value={{ navigate, getUserData, onSubmitFormLogin, onSubmitFormRegister }}>
             {children}
         </ValidationContext.Provider>
     )
 }
+
+export const useValidation = () => useContext(ValidationContext)

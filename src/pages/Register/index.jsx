@@ -7,11 +7,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
 import { ToastContainerStatus } from '../../components/Toast/ToastContainer'
 import { Error } from '../../components/Error'
-import { API } from '../../services/api'
-import { ValidationContext } from '../../hooks/validation'
+import { useValidation } from '../../hooks/validation'
 
 export const Register = () => {
-    const { navigate, onSubmitFormRegister } = useContext(ValidationContext)
+    const { navigate, onSubmitFormRegister } = useValidation()
 
     const FormSchema = yup.object({
         name: yup.string().required("Nome Obrigatório"),

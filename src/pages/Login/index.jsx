@@ -7,12 +7,12 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
 import { Error } from '../../components/Error'
-import { ValidationContext } from '../../hooks/validation'
+import { useValidation } from '../../hooks/validation'
 
 export const Login = () => {
     const [typeInput, setTypeInput] = useState("password")
     const [passwordIconStatus, setPasswordIconStatus] = useState(false)
-    const { navigate, onSubmitFormLogin } = useContext(ValidationContext)
+    const { navigate, onSubmitFormLogin } = useValidation()
 
     const FormSchema = yup.object({
         email: yup.string().required("Email obrigatório").email(),

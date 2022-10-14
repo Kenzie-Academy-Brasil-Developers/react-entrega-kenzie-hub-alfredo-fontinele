@@ -1,10 +1,11 @@
 import * as S from './style'
 import logoAdd from '../../assets/AddImage.png'
 import { API } from '../../services/api'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ListTech } from './ListTech'
 import { ModalUpdate } from '../Modal/ModalUpdate'
 import { ModalAdd } from '../Modal/ModalAdd'
+import { useEffect } from 'react'
 
 export const Main = () => {
     const [cardCurrent, setCardCurrent] = useState(null)
@@ -13,7 +14,7 @@ export const Main = () => {
     const [techs, setTechs] = useState([])
 
     useEffect(() => {
-        (async () => {
+        (async() => {
             const token = localStorage.getItem("@hub:token")
             if (token) {
                 const { data } = await API.get(`profile`, {
@@ -25,23 +26,23 @@ export const Main = () => {
                 setTechs(technologies)
             }
         })()
-    }, [techs])
+    }, [])
 
     return (
         <>
             {statusModalUpdate && 
                 <ModalUpdate 
-                    setTechs={setTechs} 
-                    cardCurrent={cardCurrent} 
-                    statusModalUpdate={statusModalUpdate} 
+                    setTechs={setTechs}
+                    cardCurrent={cardCurrent}
+                    statusModalUpdate={statusModalUpdate}
                     setStatusModalUpdate={setStatusModalUpdate}
                 />
             }
             {statusModalAdd && 
                 <ModalAdd 
+                    setTechs={setTechs}
                     statusModalAdd={statusModalAdd} 
                     setStatusModalAdd={setStatusModalAdd} 
-                    setTechs={setTechs}
                 />
             }
             <S.MainContainer>
