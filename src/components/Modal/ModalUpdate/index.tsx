@@ -1,16 +1,21 @@
-import { useRef } from 'react'
+import { useState, useRef, FormEvent } from 'react'
 import { toast } from 'react-toastify'
-import { useValidation } from '../../../hooks/validation'
+import { AnyObject } from 'yup/lib/types'
+import { useValidation } from '../../../context/validation'
 import { API } from '../../../services/api'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }) => {
+interface iValidatyObjectUpdate {
+    status: string | undefined
+}
+
+export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }:AnyObject) => {
     const { getUserData } = useValidation()
     const { id, title } = cardCurrent
     const token = localStorage.getItem("@hub:token")
-    const nameValue = useRef()
-    const selectValue = useRef()
+    const nameValue = useRef<HTMLInputElement>(null)
+    const selectValue = useRef<HTMLSelectElement>(null)
 
     const deleteTechnology = async () => {
         try {
@@ -28,16 +33,14 @@ export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }) => 
         }
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e:FormEvent) => {
         e.preventDefault()
         try {
-            const body = {
+            const body:iValidatyObjectUpdate = {
                 status: selectValue.current?.value
             }
             await API.put(`users/techs/${id}`, body, {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers: { "Authorization": `Bearer ${token}` }
             })
             const result = await getUserData(token)
             setTechs(result)

@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
 import { ToastContainerStatus } from '../../components/Toast/ToastContainer'
 import { Error } from '../../components/Error'
-import { useValidation } from '../../hooks/validation'
+import { useValidation } from '../../context/validation'
 
 export const Register = () => {
     const { navigate, onSubmitFormRegister } = useValidation()
@@ -16,6 +16,7 @@ export const Register = () => {
         name: yup.string().required("Nome Obrigatório"),
         email: yup.string().required("Email obrigatório").email(),
         password: yup.string().required("Senha obrigatória")
+            .min(8)
             .matches(/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/, "Senha com no mínimo 8 caracteres. Necessário ter letras, números e ao menos um símbolo"),
         confirm_password: yup.string().required("Confirme sua Senha")
             .oneOf([yup.ref("password")], "Senhas precisam ser iguais"),
@@ -69,7 +70,7 @@ export const Register = () => {
                         <option value="Terceiro módulo (Introdução ao Backend)">Terceiro Módulo</option>
                         <option value="Quarto módulo (Backend Avançado)">Quarto Módulo</option>
                     </select>
-
+                    
                     <S.BtnRegister type="submit">Cadastrar</S.BtnRegister>
                 </S.FormRegister>
             </FormStructure>        

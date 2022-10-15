@@ -1,18 +1,22 @@
 import * as S from './style'
 import * as yup from 'yup'
-import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
 import { Error } from '../../components/Error'
-import { useValidation } from '../../hooks/validation'
+import { useValidation } from '../../context/validation'
+import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
+
+interface iIconType {
+    type: string
+}
 
 export const Login = () => {
+    const { navigate, onSubmitFormLogin } = useValidation()
     const [typeInput, setTypeInput] = useState("password")
     const [passwordIconStatus, setPasswordIconStatus] = useState(false)
-    const { navigate, onSubmitFormLogin } = useValidation()
 
     const FormSchema = yup.object({
         email: yup.string().required("Email obrigatório").email(),
@@ -23,7 +27,7 @@ export const Login = () => {
         resolver: yupResolver(FormSchema)
     })
 
-    const toogleIconPassword = (type) => {
+    const toogleIconPassword = (type: iIconType) => {
         setPasswordIconStatus((value) => !value)
         typeInput === "password" ? setTypeInput("text") : setTypeInput("password")
     }

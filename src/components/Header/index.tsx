@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import * as S from './style'
 
-export const Header = ({title}) => {
+interface iTitle {
+    title: string
+}
+
+export const Header = ({ title }: iTitle) => {
     const logout = () => {
         localStorage.clear()
     }

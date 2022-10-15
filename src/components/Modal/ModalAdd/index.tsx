@@ -1,21 +1,33 @@
-import { useRef } from 'react'
+import { useRef, useState, FormEvent, FunctionComponent } from 'react'
 import { toast } from 'react-toastify'
-import { useValidation } from '../../../hooks/validation'
+import { AnyObject } from 'yup/lib/types'
+import { useValidation } from '../../../context/validation'
 import { API } from '../../../services/api'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-export const ModalAdd = ({ setTechs, statusModalAdd, setStatusModalAdd }) => {
-    const { getUserData } = useValidation()
-    const token = localStorage.getItem("@hub:token")
-    const nameValue = useRef()
-    const selectValue = useRef()
+interface iPropsValidate {
+    statusModalAdd: Boolean | undefined | null
+    setStatusModalAdd: Function
+    setTechs: Function
+}
 
-    const handleSubmit = async (e) => {
+interface iValidatyObjectAdd {
+    title: string | undefined
+    status: string | undefined
+}
+
+export const ModalAdd = ({ statusModalAdd, setStatusModalAdd, setTechs }:iPropsValidate) => {
+    const token = localStorage.getItem("@hub:token")
+    const { getUserData } = useValidation()
+    const inputValue = useRef<HTMLInputElement>(null)
+    const selectValue = useRef<HTMLSelectElement>(null)
+
+    const handleSubmit = async (e:FormEvent) => {
         e.preventDefault()
-        try {
-            const body = {
-                title: nameValue.current?.value,
+        try { 
+            const body: iValidatyObjectAdd = {
+                title: inputValue.current?.value,
                 status: selectValue.current?.value
             }
             await API.post("users/techs", body, {
@@ -39,7 +51,7 @@ export const ModalAdd = ({ setTechs, statusModalAdd, setStatusModalAdd }) => {
                 </S.ModalTop>
                 <S.ModalDescription>
                     <label>Nome</label>
-                    <input ref={nameValue} type="text" placeholder="Insira uma Tecnologia"/>
+                    <input ref={inputValue} type="text" placeholder="Insira uma Tecnologia"/>
                     <label>Status</label>
                     <select ref={selectValue}>
                         <option value="Iniciante">Iniciante</option>

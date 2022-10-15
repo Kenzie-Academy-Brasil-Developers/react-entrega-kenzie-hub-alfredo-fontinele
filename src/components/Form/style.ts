@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface PropTypePosition {
+    position: string
+}
+
 export const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -15,7 +19,7 @@ export const FormTitle = styled.div`
     width: 100%;
     max-width: 370px;
     display: flex;
-    justify-content: ${({ position }) => position};
+    justify-content: ${(props:PropTypePosition) => props.position};
     align-items: center;
 
     h2 {

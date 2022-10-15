@@ -1,7 +1,7 @@
 import { ToastContainerStatus } from "./components/Toast/ToastContainer"
-import { ValidationProvider } from "./hooks/validation"
-import { RoutesGlobal } from "./routes"
-import { GlobalStyle } from './styles/global'
+import { ValidationProvider } from "./context/validation"
+import { RoutesGlobal } from "./routes/routes"
+import { GlobalStyle } from './style/global'
 
 const App = () => {
   return (
@@ -16,4 +16,3 @@ const App = () => {
 }
 
 export default App
-
