@@ -6,11 +6,13 @@ import { ListTech } from './ListTech'
 import { ModalUpdate } from '../Modal/ModalUpdate'
 import { ModalAdd } from '../Modal/ModalAdd'
 
+type State = null | boolean
+
 export const Main = () => {
-    const [cardCurrent, setCardCurrent] = useState(null)
-    const [statusModalUpdate, setStatusModalUpdate] = useState(false)
-    const [statusModalAdd, setStatusModalAdd] = useState(false)
-    const [techs, setTechs] = useState([])
+    const [cardCurrent, setCardCurrent] = useState<State>(null)
+    const [statusModalUpdate, setStatusModalUpdate] = useState<State>(false)
+    const [statusModalAdd, setStatusModalAdd] = useState<State>(false)
+    const [techs, setTechs] = useState<[]>([])
 
     useEffect(() => {
         (async () => {

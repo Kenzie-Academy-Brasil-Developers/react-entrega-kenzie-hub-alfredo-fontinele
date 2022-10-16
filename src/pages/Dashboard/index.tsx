@@ -7,7 +7,7 @@ import { User } from "../../components/User"
 import { useValidation } from "../../context/validation"
 
 export const Dashboard = () => {
-    const { navigate, isLogged } = useValidation()
+    const { navigate } = useValidation()
     const logged = localStorage.getItem("@hub:token")
 
     useEffect(() => {

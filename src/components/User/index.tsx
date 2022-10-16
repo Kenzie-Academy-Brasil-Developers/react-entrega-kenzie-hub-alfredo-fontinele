@@ -1,17 +1,17 @@
 import { useState, useEffect, ReactNode } from 'react'
 import { API } from '../../services/api'
 import * as S from './style'
+import { useValidation } from './../../context/validation';
 
 export const User = () => {
     const token = localStorage.getItem("@hub:token")
+    const { getUserData } = useValidation()
     const [name, setName] = useState(null)
     const [course_module, setCourseModule] = useState(null)
 
     useEffect(() => {
         (async() => {
-            const { data }:any = await API.get("profile", {
-                headers: { Authorization: `Bearer ${token}` }
-            })
+            const data = await getUserData(token)
             const { name:nome, course_module: curso } = data
             setName(nome)
             setCourseModule(curso)

@@ -1,7 +1,7 @@
 import * as S from './style'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { HTMLInputTypeAttribute, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
@@ -14,9 +14,9 @@ interface iIconType {
 }
 
 export const Login = () => {
-    const { navigate, onSubmitFormLogin } = useValidation()
-    const [typeInput, setTypeInput] = useState("password")
-    const [passwordIconStatus, setPasswordIconStatus] = useState(false)
+    const { onSubmitFormLogin } = useValidation()
+    const [typeInput, setTypeInput] = useState<HTMLInputTypeAttribute>("password")
+    const [passwordIconStatus, setPasswordIconStatus] = useState<boolean>(false)
 
     const FormSchema = yup.object({
         email: yup.string().required("Email obrigatório").email(),

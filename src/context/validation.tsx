@@ -59,13 +59,20 @@ export const ValidationProvider = ({ children }:layout) => {
         const { data } = await API.get(`profile`, {
             headers: { "Authorization": `Bearer ${token}` }
         })
+        return data
+    }
+
+    const getUserTechs = async(token:string) => {
+        const { data } = await API.get(`profile`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
         const { techs: technologies } = data
         return technologies
     }
 
     return (
         <ValidationContext.Provider
-            value={{ navigate, getUserData, onSubmitFormLogin, onSubmitFormRegister }}>
+            value={{ navigate, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
             {children}
         </ValidationContext.Provider>
     )

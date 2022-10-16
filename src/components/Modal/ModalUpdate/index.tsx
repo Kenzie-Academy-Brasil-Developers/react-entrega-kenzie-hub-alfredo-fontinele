@@ -6,12 +6,8 @@ import { API } from '../../../services/api'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-interface iValidatyObjectUpdate {
-    status: string | undefined
-}
-
 export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }:AnyObject) => {
-    const { getUserData } = useValidation()
+    const { getUserTechs } = useValidation()
     const { id, title } = cardCurrent
     const token = localStorage.getItem("@hub:token")
     const nameValue = useRef<HTMLInputElement>(null)
@@ -20,11 +16,9 @@ export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }:AnyO
     const deleteTechnology = async () => {
         try {
             await API.delete(`users/techs/${id}`, {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers: { "Authorization": `Bearer ${token}` }
             })
-            const result = await getUserData(token)
+            const result = await getUserTechs(token)
             setTechs(result)
             setStatusModalUpdate(false)
             toast.success("Tecnologia Deletada com Sucesso")
@@ -36,13 +30,13 @@ export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }:AnyO
     const handleSubmit = async (e:FormEvent) => {
         e.preventDefault()
         try {
-            const body:iValidatyObjectUpdate = {
+            const body = {
                 status: selectValue.current?.value
             }
             await API.put(`users/techs/${id}`, body, {
                 headers: { "Authorization": `Bearer ${token}` }
             })
-            const result = await getUserData(token)
+            const result = await getUserTechs(token)
             setTechs(result)
             toast.success("Tecnologia Atualizada com Sucesso")
             setStatusModalUpdate(false)
