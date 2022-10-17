@@ -74,21 +74,9 @@ export const ValidationProvider = ({ children }:layout) => {
         return technologies
     }
 
-    const verifyAuthUser = async () => {
-        const token = localStorage.getItem("@hub:token")
-        if (token) {
-            const data = await getUserData(token)
-            const { name:nome, course_module: curso } = data
-            setName(nome)
-            setCourseModule(curso)
-        } else {
-            navigate("/")
-        }
-    }
-
     return (
         <ValidationContext.Provider
-            value={{ navigate, verifyAuthUser, name, setName, course_module, setCourseModule, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
+            value={{ navigate, name, setName, course_module, setCourseModule, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
             {children}
         </ValidationContext.Provider>
     )

@@ -1,7 +1,7 @@
 import * as S from './style'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
-import { HTMLInputTypeAttribute, useState } from 'react'
+import { HTMLInputTypeAttribute, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormStructure } from '../../components/Form'
