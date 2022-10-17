@@ -3,7 +3,7 @@ import { CardTech } from '../CardTech'
 import * as S from './style'
 
 interface iListTechValidaty {
-    techs: object[]
+    techs: []
     setStatusModalUpdate: Function
     setCardCurrent: Function
 }
