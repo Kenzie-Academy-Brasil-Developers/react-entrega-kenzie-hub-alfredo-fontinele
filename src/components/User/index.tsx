@@ -4,18 +4,10 @@ import * as S from './style'
 import { useValidation } from './../../context/validation';
 
 export const User = () => {
-    const token = localStorage.getItem("@hub:token")
-    const { getUserData } = useValidation()
-    const [name, setName] = useState(null)
-    const [course_module, setCourseModule] = useState(null)
+    const { name, course_module, verifyAuthUser } = useValidation()
 
     useEffect(() => {
-        (async() => {
-            const data = await getUserData(token)
-            const { name:nome, course_module: curso } = data
-            setName(nome)
-            setCourseModule(curso)
-        })()
+        verifyAuthUser()
     }, [])
 
     return (

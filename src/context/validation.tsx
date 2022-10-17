@@ -1,7 +1,9 @@
-import { createContext, ReactNode, useContext } from "react"
+import { createContext, ReactNode, useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { API } from "../services/api"
 import { toast } from 'react-toastify'
+
+type ValidateUser = string | null
 
 interface iInfoValidaty {
     email: string,
@@ -23,6 +25,8 @@ interface iToken {
 export const ValidationContext = createContext({})
 
 export const ValidationProvider = ({ children }:layout) => {
+    const [name, setName] = useState<ValidateUser>(null)
+    const [course_module, setCourseModule] = useState<ValidateUser>(null)
     const navigate = useNavigate()
 
     const onSubmitFormLogin = async (dados:object) => {
@@ -70,9 +74,21 @@ export const ValidationProvider = ({ children }:layout) => {
         return technologies
     }
 
+    const verifyAuthUser = async () => {
+        const token = localStorage.getItem("@hub:token")
+        if (token) {
+            const data = await getUserData(token)
+            const { name:nome, course_module: curso } = data
+            setName(nome)
+            setCourseModule(curso)
+        } else {
+            navigate("/")
+        }
+    }
+
     return (
         <ValidationContext.Provider
-            value={{ navigate, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
+            value={{ navigate, verifyAuthUser, name, setName, course_module, setCourseModule, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
             {children}
         </ValidationContext.Provider>
     )
