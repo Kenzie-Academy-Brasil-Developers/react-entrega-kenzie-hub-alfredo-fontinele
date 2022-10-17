@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { API } from "../services/api"
 import { toast } from 'react-toastify'
 
-type ValidateUser = string | null
-
 interface iInfoValidaty {
     email: string,
     password: string,
@@ -25,11 +23,10 @@ interface iToken {
 export const ValidationContext = createContext({})
 
 export const ValidationProvider = ({ children }:layout) => {
-    const [name, setName] = useState<ValidateUser>(null)
-    const [course_module, setCourseModule] = useState<ValidateUser>(null)
+    const [user, setUser] = useState({})
     const navigate = useNavigate()
 
-    const onSubmitFormLogin = async (dados:object) => {
+    const onSubmitFormLogin = async (dados:{}) => {
         try {
             const { data } = await API.post('sessions', dados)
             const { token }:iToken = data
@@ -74,9 +71,29 @@ export const ValidationProvider = ({ children }:layout) => {
         return technologies
     }
 
+    const thereIsToken = () => {
+        const token = localStorage.getItem("@hub:token")
+        if (!token) {
+            return false
+        }
+        return token
+    }
+
+    const setDataUser = async () => {
+        const token = localStorage.getItem("@hub:token")
+        if (token) {
+            const data = await getUserData(token)
+            const { name, course_module } = data
+            setUser({
+                name: name,
+                course_module: course_module
+            })
+        }
+    }
+
     return (
         <ValidationContext.Provider
-            value={{ navigate, name, setName, course_module, setCourseModule, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
+            value={{ navigate, setDataUser, thereIsToken, user, setUser, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
             {children}
         </ValidationContext.Provider>
     )

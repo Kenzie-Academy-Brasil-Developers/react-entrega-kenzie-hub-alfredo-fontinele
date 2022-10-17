@@ -7,20 +7,15 @@ import { useValidation } from './../../context/validation';
 import { useEffect } from 'react';
 
 export const Dashboard = () => {
-    const { navigate, setName, setCourseModule, getUserData } = useValidation()
+    const { navigate, thereIsToken } = useValidation()
+
     useEffect(() => {
-        (async() => {
-            const token = localStorage.getItem("@hub:token")
-            if (token) {
-                const data = await getUserData(token)
-                const { name:nome, course_module: curso } = data
-                setName(nome)
-                setCourseModule(curso)
-            } else {
-                navigate("/")
-            }
-        })()
+        const token = thereIsToken()
+        if (!token) {
+            navigate("/")
+        }
     }, [])
+
     return (
         <>
             <Container>
