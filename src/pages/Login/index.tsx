@@ -9,13 +9,15 @@ import { Error } from '../../components/Error'
 import { useValidation } from '../../context/validation'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
 
+type StatePassword = boolean
+
 interface IIconType {
     type: string
 }
 
 export const Login = () => {
     const [typeInput, setTypeInput] = useState<HTMLInputTypeAttribute>("password")
-    const [passwordIconStatus, setPasswordIconStatus] = useState<boolean>(false)
+    const [passwordIconStatus, setPasswordIconStatus] = useState<StatePassword>(false)
     const { onSubmitFormLogin } = useValidation()
 
     const FormSchema = yup.object({
