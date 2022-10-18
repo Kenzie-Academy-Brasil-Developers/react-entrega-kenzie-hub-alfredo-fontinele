@@ -1,24 +1,30 @@
-import { AnyObject } from 'yup/lib/types'
 import { CardTech } from '../CardTech'
 import * as S from './style'
 
-interface iListTechValidaty {
+interface IListTechValidaty {
     techs: []
     setStatusModalUpdate: Function
     setCardCurrent: Function
 }
 
-export const ListTech = ({ techs, setStatusModalUpdate, setCardCurrent }:iListTechValidaty) => {
+interface IValidTech {
+    id: string
+    technology: string
+    status: string
+    title: string
+}
+
+export const ListTech = ({ techs, setStatusModalUpdate, setCardCurrent }:IListTechValidaty) => {
     return (
         <S.MainList>
             {(techs.length) ? (
-                techs.map(({ id, title, status }:AnyObject) => (
+                techs.map((tech: IValidTech) => (
                     <CardTech 
-                        key={id} 
-                        id={id} 
+                        key={tech.id} 
+                        id={tech.id} 
                         techs={techs}
-                        technology={title} 
-                        status={status}
+                        technology={tech.title} 
+                        status={tech.status}
                         setStatusModalUpdate={setStatusModalUpdate}
                         setCardCurrent={setCardCurrent}
                     />

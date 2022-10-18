@@ -1,10 +1,7 @@
 import { ReactNode } from 'react'
 import * as S from './style'
+import { ILayout } from './../../../context/validation';
 
-interface Layout {
-    children: ReactNode
-}
-
-export const ModalStructure = ({ children }:Layout) => (
+export const ModalStructure = ({ children }:ILayout) => (
     <S.ModalContainer>{children}</S.ModalContainer>
 )

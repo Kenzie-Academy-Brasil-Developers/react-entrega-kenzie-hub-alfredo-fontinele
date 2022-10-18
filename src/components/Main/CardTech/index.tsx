@@ -10,7 +10,6 @@ interface iCardValidaty {
 }
 
 export const CardTech = ({ id, technology, techs, status, setStatusModalUpdate, setCardCurrent }:iCardValidaty) => {
-    const token = localStorage.getItem("@hub:token")
 
     const renderModal = () => {
         techs.find((tech: { id: string }) => {

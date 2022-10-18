@@ -6,21 +6,18 @@ import { ModalUpdate } from '../Modal/ModalUpdate'
 import { ModalAdd } from '../Modal/ModalAdd'
 import { useValidation } from './../../context/validation';
 
-type State = null | boolean
-
-interface Tech {
-    techs: []
-}
+type TCard = object
+type TFunction = Function | boolean
 
 export const Main = () => {
-    const [cardCurrent, setCardCurrent] = useState<State>(null)
-    const [statusModalUpdate, setStatusModalUpdate] = useState<State>(false)
-    const [statusModalAdd, setStatusModalAdd] = useState<State>(false)
-    const [techs, setTechs] = useState<Tech[]>([])
-    const { getUserTechs } = useValidation()
+    const [cardCurrent, setCardCurrent] = useState<TCard>({})
+    const [statusModalUpdate, setStatusModalUpdate] = useState<TFunction>(false)
+    const [statusModalAdd, setStatusModalAdd] = useState<TFunction>(false)
+    const [techs, setTechs] = useState<[]>([])
+    const { getUserTechs, getToken } = useValidation()
 
     const setUserTechsCall = useCallback(async() => {
-        const token = localStorage.getItem("@hub:token")
+        const token = getToken()
         if (token) {
             const techs = await getUserTechs(token)
             setTechs(techs)
@@ -37,13 +34,11 @@ export const Main = () => {
                 <ModalUpdate 
                     setTechs={setTechs} 
                     cardCurrent={cardCurrent} 
-                    statusModalUpdate={statusModalUpdate} 
                     setStatusModalUpdate={setStatusModalUpdate}
                 />
             }
             {statusModalAdd && 
                 <ModalAdd 
-                    statusModalAdd={statusModalAdd} 
                     setStatusModalAdd={setStatusModalAdd} 
                     setTechs={setTechs}
                 />

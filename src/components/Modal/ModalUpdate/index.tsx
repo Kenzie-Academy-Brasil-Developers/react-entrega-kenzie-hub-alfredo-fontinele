@@ -6,14 +6,20 @@ import { API } from '../../../services/api'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }:AnyObject) => {
-    const { getUserTechs } = useValidation()
+interface IModalUpdateValidate {
+    cardCurrent: AnyObject
+    setStatusModalUpdate: Function
+    setTechs: Function
+}
+
+export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }:IModalUpdateValidate) => {
+    const { getUserTechs, getToken } = useValidation()
     const { id, title } = cardCurrent
-    const token = localStorage.getItem("@hub:token")
     const nameValue = useRef<HTMLInputElement>(null)
     const selectValue = useRef<HTMLSelectElement>(null)
+    const token = getToken()
 
-    const deleteTechnology = async () => {
+    const deleteTechnology = async():Promise<void> => {
         try {
             await API.delete(`users/techs/${id}`, {
                 headers: { "Authorization": `Bearer ${token}` }

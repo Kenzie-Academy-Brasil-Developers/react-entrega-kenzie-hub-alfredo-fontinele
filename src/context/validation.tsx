@@ -3,7 +3,19 @@ import { useNavigate } from "react-router-dom"
 import { API } from "../services/api"
 import { toast } from 'react-toastify'
 
-interface iInfoValidaty {
+type Token = string | boolean | null
+
+type State = string | boolean
+
+export interface ILayout {
+    children: ReactNode
+}
+
+export interface IValidToken {
+    token: string
+}
+
+interface IInfoValidaty {
     email: string,
     password: string,
     name: string,
@@ -12,24 +24,45 @@ interface iInfoValidaty {
     course_module: string
 }
 
-interface layout {
-    children: ReactNode
-}
-
-interface iToken {
+interface IData {
+    user: object
     token: string
 }
 
-export const ValidationContext = createContext({})
+interface IUserData {
+    name: string
+    course_module: string
+}
 
-export const ValidationProvider = ({ children }:layout) => {
-    const [user, setUser] = useState({})
+interface ITechData {
+    technologies: []
+}
+
+interface IValidationProviderData {
+    name: State
+    setName: Function
+    courseModule: State
+    setCourseModule: Function
+    navigate: Function
+    setDataUser: Function
+    getToken: Function
+    getUserData: Function
+    getUserTechs: Function
+    onSubmitFormLogin: Function
+    onSubmitFormRegister: Function
+}
+
+export const ValidationContext = createContext({} as IValidationProviderData)
+
+export const ValidationProvider = ({ children }:ILayout) => {
+    const [name, setName] = useState<State>("")
+    const [courseModule, setCourseModule] = useState<State>("")
     const navigate = useNavigate()
 
-    const onSubmitFormLogin = async (dados:{}) => {
+    const onSubmitFormLogin = async (dados:IData) => {
         try {
             const { data } = await API.post('sessions', dados)
-            const { token }:iToken = data
+            const { token }:IValidToken = data
             localStorage.setItem("@hub:token", token)
             toast.success("Show. Manda Bala 🚀")
             navigate("/dashboard")
@@ -38,7 +71,9 @@ export const ValidationProvider = ({ children }:layout) => {
         }
     }
 
-    const onSubmitFormRegister = async ({ email, password, name, bio, contact, course_module }: iInfoValidaty) => {
+    const onSubmitFormRegister = async ({ 
+        email, password, name, bio, contact, course_module 
+    }: IInfoValidaty) => {
         try {
             const info = {
                 email: email,
@@ -56,44 +91,49 @@ export const ValidationProvider = ({ children }:layout) => {
         }
     }
 
-    const getUserData = async(token:string) => {
+    //Promise<IUserData> //Tipando o retorno
+    const getUserData = async(token:string):Promise<IUserData> => {
+        const { data: { name, course_module } } = await API.get(`profile`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        })
+        const result:IUserData = {
+            name: name,
+            course_module: course_module
+        }
+        return result
+    }
+
+    //Promise<ITechData> //Tipando o retorno
+    const getUserTechs = async(token:string):Promise<ITechData> => {
         const { data } = await API.get(`profile`, {
             headers: { "Authorization": `Bearer ${token}` }
         })
-        return data
+        const { techs } = data
+        return techs
     }
 
-    const getUserTechs = async(token:string) => {
-        const { data } = await API.get(`profile`, {
-            headers: { "Authorization": `Bearer ${token}` }
-        })
-        const { techs: technologies } = data
-        return technologies
-    }
-
-    const thereIsToken = () => {
-        const token = localStorage.getItem("@hub:token")
+    //Tipagens de Token
+    const getToken = () => {
+        const token:Token = localStorage.getItem("@hub:token")
         if (!token) {
             return false
         }
         return token
     }
 
-    const setDataUser = async () => {
-        const token = localStorage.getItem("@hub:token")
+    const setDataUser = async() => {
+        const token:Token = localStorage.getItem("@hub:token")
         if (token) {
             const data = await getUserData(token)
             const { name, course_module } = data
-            setUser({
-                name: name,
-                course_module: course_module
-            })
+            setName(name)
+            setCourseModule(course_module)
         }
     }
 
     return (
         <ValidationContext.Provider
-            value={{ navigate, setDataUser, thereIsToken, user, setUser, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
+            value={{ navigate, setDataUser, getToken, name, setName, courseModule, setCourseModule, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
             {children}
         </ValidationContext.Provider>
     )

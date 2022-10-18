@@ -1,25 +1,24 @@
 import { useRef, useState, FormEvent, FunctionComponent } from 'react'
 import { toast } from 'react-toastify'
-import { useValidation } from '../../../context/validation'
+import { IValidToken, useValidation } from '../../../context/validation'
 import { API } from '../../../services/api'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
 
-interface iPropsValidate {
-    statusModalAdd: Boolean | null
+interface IModalAddValidate {
     setStatusModalAdd: Function
     setTechs: Function
 }
 
-export const ModalAdd = ({ statusModalAdd, setStatusModalAdd, setTechs }:iPropsValidate) => {
-    const token = localStorage.getItem("@hub:token")
-    const { getUserTechs } = useValidation()
+export const ModalAdd = ({ setStatusModalAdd, setTechs }:IModalAddValidate) => {
+    const { getUserTechs, getToken } = useValidation()
     const inputValue = useRef<HTMLInputElement>(null)
     const selectValue = useRef<HTMLSelectElement>(null)
 
     const handleSubmit = async (e:FormEvent) => {
         e.preventDefault()
         try { 
+            const token = getToken()
             const body = {
                 title: inputValue.current?.value,
                 status: selectValue.current?.value

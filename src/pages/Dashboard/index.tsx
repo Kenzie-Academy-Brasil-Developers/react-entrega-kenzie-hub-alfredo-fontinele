@@ -3,14 +3,14 @@ import { Header } from "../../components/Header"
 import { Line } from "../../components/LineDivision/style"
 import { Main } from "../../components/Main"
 import { User } from "../../components/User"
-import { useValidation } from './../../context/validation';
+import { IValidToken, useValidation } from './../../context/validation';
 import { useEffect } from 'react';
 
 export const Dashboard = () => {
-    const { navigate, thereIsToken } = useValidation()
+    const { navigate, getToken } = useValidation()
 
     useEffect(() => {
-        const token = thereIsToken()
+        const token:IValidToken = getToken()
         if (!token) {
             navigate("/")
         }

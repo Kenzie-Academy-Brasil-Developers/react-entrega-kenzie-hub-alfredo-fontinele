@@ -9,14 +9,14 @@ import { Error } from '../../components/Error'
 import { useValidation } from '../../context/validation'
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai'
 
-interface iIconType {
+interface IIconType {
     type: string
 }
 
 export const Login = () => {
-    const { onSubmitFormLogin } = useValidation()
     const [typeInput, setTypeInput] = useState<HTMLInputTypeAttribute>("password")
     const [passwordIconStatus, setPasswordIconStatus] = useState<boolean>(false)
+    const { onSubmitFormLogin } = useValidation()
 
     const FormSchema = yup.object({
         email: yup.string().required("Email obrigatório").email(),
@@ -27,13 +27,13 @@ export const Login = () => {
         resolver: yupResolver(FormSchema)
     })
 
-    const toogleIconPassword = (type: iIconType) => {
+    const toogleIconPassword = (type: IIconType) => {
         setPasswordIconStatus((value) => !value)
         typeInput === "password" ? setTypeInput("text") : setTypeInput("password")
     }
 
     return (
-        <FormStructure title="Kenzie Hub">
+        <FormStructure title="Kenzie Hub" btnTitle='' route=''>
             <S.FormLogin onSubmit={handleSubmit(onSubmitFormLogin)}>
                 <h3>Login</h3>
 

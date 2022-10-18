@@ -4,7 +4,7 @@ import { useValidation } from './../../context/validation'
 
 export const User = () => {
     const { 
-        user: { name, course_module }, 
+        name, courseModule, 
         navigate, setDataUser 
     } = useValidation()
 
@@ -15,7 +15,7 @@ export const User = () => {
     return (
         <S.UserContainer>
             <h2>Olá, {name}</h2>
-            <p>{course_module}</p>
+            <p>{courseModule}</p>
         </S.UserContainer>
     )
 }
