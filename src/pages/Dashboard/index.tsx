@@ -10,10 +10,12 @@ export const Dashboard = () => {
     const { navigate, getToken } = useValidation()
 
     useEffect(() => {
-        const token:IValidToken = getToken()
-        if (!token) {
-            navigate("/")
-        }
+        (async() => {
+            const token:IValidToken = await getToken()
+            if (!token) {
+                navigate("/")
+            }
+        })()
     }, [])
 
     return (
