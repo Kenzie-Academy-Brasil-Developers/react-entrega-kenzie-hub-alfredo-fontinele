@@ -1,11 +1,11 @@
-import { createContext, ReactNode, useState, useContext } from "react"
-import { useNavigate } from "react-router-dom"
+import { createContext, ReactNode, useState, useContext, Dispatch, SetStateAction } from "react"
+import { useNavigate, NavigateFunction } from "react-router-dom"
 import { API } from "../services/api"
 import { toast } from 'react-toastify'
 
 type Token = string | boolean | null
 
-type State = string | boolean
+type MyState = string | boolean
 
 export interface ILayout {
     children: ReactNode
@@ -13,6 +13,16 @@ export interface ILayout {
 
 export interface IValidToken {
     token: string
+}
+
+interface ITechData {
+    id: string
+    status: string
+    title: string
+}
+
+interface ITechData {
+    techs: ITechData[]
 }
 
 interface IInfoValidaty {
@@ -34,29 +44,25 @@ interface IUserData {
     course_module: string
 }
 
-interface ITechData {
-    technologies: []
-}
-
 interface IValidationProviderData {
-    name: State
-    setName: Function
-    courseModule: State
-    setCourseModule: Function
-    navigate: Function
-    setDataUser: Function
-    getToken: Function
-    getUserData: Function
-    getUserTechs: Function
-    onSubmitFormLogin: Function
-    onSubmitFormRegister: Function
+    name: MyState
+    setName: Dispatch<SetStateAction<MyState>>
+    courseModule: MyState
+    setCourseModule: Dispatch<SetStateAction<MyState>>
+    navigate: NavigateFunction
+    setDataUser: () => Promise<void>
+    getToken: () => Token
+    getUserData: (token: string) => Promise<IUserData>
+    getUserTechs: (token: string) => Promise<ITechData[]>
+    onSubmitFormLogin: (dados: IData) => Promise<void>
+    onSubmitFormRegister: (dados: IInfoValidaty) => Promise<void>
 }
 
 export const ValidationContext = createContext({} as IValidationProviderData)
 
 export const ValidationProvider = ({ children }:ILayout) => {
-    const [name, setName] = useState<State>("")
-    const [courseModule, setCourseModule] = useState<State>("")
+    const [name, setName] = useState<MyState>("")
+    const [courseModule, setCourseModule] = useState<MyState>("")
     const navigate = useNavigate()
 
     const onSubmitFormLogin = async (dados:IData) => {
@@ -91,29 +97,22 @@ export const ValidationProvider = ({ children }:ILayout) => {
         }
     }
 
-    //Promise<IUserData> //Tipando o retorno
     const getUserData = async(token:string):Promise<IUserData> => {
-        const { data: { name, course_module } } = await API.get(`profile`, {
+        const { data } = await API.get<IUserData>(`profile`, {
             headers: { "Authorization": `Bearer ${token}` }
         })
-        const result:IUserData = {
-            name: name,
-            course_module: course_module
-        }
-        return result
+        return data
     }
 
-    //Promise<ITechData> //Tipando o retorno
-    const getUserTechs = async(token:string):Promise<ITechData> => {
-        const { data } = await API.get(`profile`, {
+    
+    const getUserTechs = async(token:string):Promise<ITechData[]> => {
+        const { data: { techs } } = await API.get<ITechData>(`profile`, {
             headers: { "Authorization": `Bearer ${token}` }
         })
-        const { techs } = data
         return techs
     }
 
-    //Tipagens de Token
-    const getToken = () => {
+    const getToken = ():Token => {
         const token:Token = localStorage.getItem("@hub:token")
         if (!token) {
             return false
@@ -121,7 +120,7 @@ export const ValidationProvider = ({ children }:ILayout) => {
         return token
     }
 
-    const setDataUser = async() => {
+    const setDataUser = async():Promise<void> => {
         const token:Token = localStorage.getItem("@hub:token")
         if (token) {
             const data = await getUserData(token)
