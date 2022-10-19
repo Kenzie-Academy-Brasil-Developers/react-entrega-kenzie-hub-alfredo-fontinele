@@ -6,14 +6,23 @@ import { ModalUpdate } from '../Modal/ModalUpdate'
 import { ModalAdd } from '../Modal/ModalAdd'
 import { useValidation } from './../../context/validation';
 
-type TCard = object
-type TFunction = Function | boolean
+export interface IValidTech {
+    id: string
+    title: string
+    status: string
+}
+
+export interface IValidCard {
+    id: string
+    title: string
+    status: string
+}
 
 export const Main = () => {
-    const [cardCurrent, setCardCurrent] = useState<TCard>({})
-    const [statusModalUpdate, setStatusModalUpdate] = useState<TFunction>(false)
-    const [statusModalAdd, setStatusModalAdd] = useState<TFunction>(false)
-    const [techs, setTechs] = useState<[]>([])
+    const [statusModalUpdate, setStatusModalUpdate] = useState<boolean>(false)
+    const [statusModalAdd, setStatusModalAdd] = useState<boolean>(false)
+    const [techs, setTechs] = useState<IValidTech[]>([])
+    const [cardCurrent, setCardCurrent] = useState({})
     const { getUserTechs, getToken } = useValidation()
 
     const setUserTechsCall = useCallback(async() => {

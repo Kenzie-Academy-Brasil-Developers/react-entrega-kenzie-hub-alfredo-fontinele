@@ -1,13 +1,14 @@
-import { useRef, useState, FormEvent, FunctionComponent } from 'react'
+import { useRef, useState, FormEvent, FunctionComponent, Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-toastify'
-import { IValidToken, useValidation } from '../../../context/validation'
+import { useValidation } from '../../../context/validation'
 import { API } from '../../../services/api'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
+import { IValidTech } from './../../Main/index';
 
 interface IModalAddValidate {
-    setStatusModalAdd: Function
-    setTechs: Function
+    setStatusModalAdd: Dispatch<SetStateAction<boolean>>
+    setTechs: Dispatch<SetStateAction<IValidTech[]>>
 }
 
 export const ModalAdd = ({ setStatusModalAdd, setTechs }:IModalAddValidate) => {

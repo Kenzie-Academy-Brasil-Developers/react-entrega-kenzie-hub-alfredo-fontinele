@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 
 type Token = string | boolean | null
 
-type MyState = string | boolean
+type MyState = string | boolean | undefined
 
 export interface ILayout {
     children: ReactNode
@@ -25,7 +25,7 @@ interface ITechValid {
     techs: ITechData[]
 }
 
-interface IInfoValidaty {
+interface IDataRegister {
     email: string,
     password: string,
     name: string,
@@ -34,7 +34,7 @@ interface IInfoValidaty {
     course_module: string
 }
 
-interface IData {
+interface IDataLogin {
     user: object
     token: string
 }
@@ -46,16 +46,16 @@ interface IUserData {
 
 interface IValidationProviderData {
     name: MyState
-    setName: Dispatch<SetStateAction<MyState>>
     courseModule: MyState
+    setName: Dispatch<SetStateAction<MyState>>
     setCourseModule: Dispatch<SetStateAction<MyState>>
     navigate: NavigateFunction
     setDataUser: () => Promise<void>
     getToken: () => Token
     getUserData: (token: string) => Promise<IUserData>
     getUserTechs: (token: string) => Promise<ITechData[]>
-    onSubmitFormLogin: (dados: IData) => Promise<void>
-    onSubmitFormRegister: (dados: IInfoValidaty) => Promise<void>
+    onSubmitFormLogin: (dados: IDataLogin) => Promise<void>
+    onSubmitFormRegister: (dados: IDataRegister) => Promise<void>
 }
 
 export const ValidationContext = createContext({} as IValidationProviderData)
@@ -65,7 +65,7 @@ export const ValidationProvider = ({ children }:ILayout) => {
     const [courseModule, setCourseModule] = useState<MyState>("")
     const navigate = useNavigate()
 
-    const onSubmitFormLogin = async (dados:IData) => {
+    const onSubmitFormLogin = async (dados:IDataLogin) => {
         try {
             const { data } = await API.post('sessions', dados)
             const { token }:IValidToken = data
@@ -79,7 +79,7 @@ export const ValidationProvider = ({ children }:ILayout) => {
 
     const onSubmitFormRegister = async ({ 
         email, password, name, bio, contact, course_module 
-    }: IInfoValidaty) => {
+    }: IDataRegister) => {
         try {
             const info = {
                 email: email,
@@ -103,7 +103,6 @@ export const ValidationProvider = ({ children }:ILayout) => {
         })
         return data
     }
-
     
     const getUserTechs = async(token:string):Promise<ITechData[]> => {
         const { data: { techs } } = await API.get<ITechValid>(`profile`, {
@@ -132,7 +131,7 @@ export const ValidationProvider = ({ children }:ILayout) => {
 
     return (
         <ValidationContext.Provider
-            value={{ navigate, setDataUser, getToken, name, setName, courseModule, setCourseModule, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister }}>
+            value={{ setName, setCourseModule, navigate, setDataUser, getToken, getUserData, getUserTechs, onSubmitFormLogin, onSubmitFormRegister, name, courseModule }}>
             {children}
         </ValidationContext.Provider>
     )

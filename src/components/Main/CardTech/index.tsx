@@ -1,18 +1,22 @@
 import { Card } from './style'
 
-interface iCardValidaty {
+interface IValidTech {
+    id: string
+}
+
+interface ICardValidaty {
     id: string
     technology: string
-    techs: []
+    techs: IValidTech[]
     status: string 
     setStatusModalUpdate: Function 
     setCardCurrent: Function
 }
 
-export const CardTech = ({ id, technology, techs, status, setStatusModalUpdate, setCardCurrent }:iCardValidaty) => {
+export const CardTech = ({ id, technology, techs, status, setStatusModalUpdate, setCardCurrent }:ICardValidaty) => {
 
     const renderModal = () => {
-        techs.find((tech: { id: string }) => {
+        techs.find((tech) => {
             if (tech.id === id) {
                 setCardCurrent(tech)
             }
