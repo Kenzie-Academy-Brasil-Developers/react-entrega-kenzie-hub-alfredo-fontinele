@@ -21,7 +21,7 @@ interface ITechData {
     title: string
 }
 
-interface ITechData {
+interface ITechValid {
     techs: ITechData[]
 }
 
@@ -106,7 +106,7 @@ export const ValidationProvider = ({ children }:ILayout) => {
 
     
     const getUserTechs = async(token:string):Promise<ITechData[]> => {
-        const { data: { techs } } = await API.get<ITechData>(`profile`, {
+        const { data: { techs } } = await API.get<ITechValid>(`profile`, {
             headers: { "Authorization": `Bearer ${token}` }
         })
         return techs
