@@ -1,23 +1,24 @@
-import { useState, useRef, FormEvent } from 'react'
+import { useState, useRef, FormEvent, Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-toastify'
 import { AnyObject } from 'yup/lib/types'
-import { useValidation } from '../../../context/validation'
+import { IValidToken, useValidation } from '../../../context/validation'
 import { API } from '../../../services/api'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
+import { IValidTech } from './../../Main/index';
 
 interface IModalUpdateValidate {
     cardCurrent: AnyObject
-    setStatusModalUpdate: Function
-    setTechs: Function
+    setStatusModalUpdate: Dispatch<SetStateAction<boolean>>
+    setTechs: Dispatch<SetStateAction<IValidTech[]>>
 }
 
 export const ModalUpdate = ({ cardCurrent, setStatusModalUpdate, setTechs }:IModalUpdateValidate) => {
     const { getUserTechs, getToken } = useValidation()
     const { id, title } = cardCurrent
+    const token:IValidToken = getToken()
     const nameValue = useRef<HTMLInputElement>(null)
     const selectValue = useRef<HTMLSelectElement>(null)
-    const token = getToken()
 
     const deleteTechnology = async():Promise<void> => {
         try {

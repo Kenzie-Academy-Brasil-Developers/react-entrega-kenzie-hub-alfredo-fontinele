@@ -2,9 +2,9 @@ import { CardTech } from '../CardTech'
 import * as S from './style'
 import { Dispatch } from 'react';
 import { SetStateAction } from 'react';
-import { IValidTech, IValidCard } from './../index';
+import { IValidTech } from './../index';
 
-interface IListTechValidaty {
+export interface IListTechValidaty {
     techs: IValidTech[]
     setStatusModalUpdate: Dispatch<SetStateAction<boolean>>
     setCardCurrent: Dispatch<SetStateAction<{}>>

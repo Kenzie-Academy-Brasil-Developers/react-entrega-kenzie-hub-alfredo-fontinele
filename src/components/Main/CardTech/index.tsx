@@ -1,16 +1,17 @@
 import { Card } from './style'
+import { Dispatch, SetStateAction } from 'react';
 
-interface IValidTech {
+interface IValidId {
     id: string
 }
 
 interface ICardValidaty {
     id: string
     technology: string
-    techs: IValidTech[]
+    techs: IValidId[]
     status: string 
-    setStatusModalUpdate: Function 
-    setCardCurrent: Function
+    setStatusModalUpdate: Dispatch<SetStateAction<boolean>>
+    setCardCurrent: Dispatch<SetStateAction<{}>>
 }
 
 export const CardTech = ({ id, technology, techs, status, setStatusModalUpdate, setCardCurrent }:ICardValidaty) => {

@@ -12,12 +12,6 @@ export interface IValidTech {
     status: string
 }
 
-export interface IValidCard {
-    id: string
-    title: string
-    status: string
-}
-
 export const Main = () => {
     const [statusModalUpdate, setStatusModalUpdate] = useState<boolean>(false)
     const [statusModalAdd, setStatusModalAdd] = useState<boolean>(false)

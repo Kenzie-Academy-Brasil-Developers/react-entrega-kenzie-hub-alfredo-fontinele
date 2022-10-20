@@ -1,6 +1,6 @@
 import { useRef, useState, FormEvent, FunctionComponent, Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-toastify'
-import { useValidation } from '../../../context/validation'
+import { IValidToken, useValidation } from '../../../context/validation'
 import { API } from '../../../services/api'
 import { ModalStructure } from '../ModalStructure'
 import * as S from './style'
@@ -19,7 +19,7 @@ export const ModalAdd = ({ setStatusModalAdd, setTechs }:IModalAddValidate) => {
     const handleSubmit = async (e:FormEvent) => {
         e.preventDefault()
         try { 
-            const token = getToken()
+            const token:IValidToken = getToken()
             const body = {
                 title: inputValue.current?.value,
                 status: selectValue.current?.value
