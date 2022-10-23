@@ -9,4 +9,4 @@
 * Styled-Components
 * Yup | Validação de Formulários
 * Axios | Consumindo API
-* @hook-form/resolvers
+* @hookform/resolvers
